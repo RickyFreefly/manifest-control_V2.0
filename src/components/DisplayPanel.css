@@ -1,0 +1,373 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+
+/* =======================================
+   🌍 GLOBAL
+======================================= */
+body, html, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #f9fafc;
+  font-family: 'Orbitron', sans-serif;
+  color: #0d1b2a;
+}
+
+/* =======================================
+   ⚙️ CONTENEDOR PRINCIPAL
+======================================= */
+
+.flash-active {
+  background: radial-gradient(circle, #ffffff 0%, #bde0fe 80%);
+}
+
+/* =======================================
+   🔹 HEADER
+======================================= */
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 6rem;
+  flex-wrap: wrap;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.flyer-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 260px;
+}
+
+.label-blue {
+  font-size: 1.8rem;
+  color: #00aaff;
+  letter-spacing: 3px;
+  margin-bottom: 0.5rem;
+}
+
+/* ========================================
+   ✨ FLYER & SE PREPARA — IGUALADOS VISUALMENTE
+======================================== */
+.flyer-name,
+.flyer-next {
+  background: linear-gradient(180deg, #e9f4ff 0%, #d6ecff 100%);
+  border-radius: 20px;
+  padding: 1.8rem 3rem;
+  font-size: 1.6rem;
+  color: #0066cc;
+  font-weight: 700;
+  text-transform: uppercase;
+  box-shadow:
+    0 0 20px rgba(0, 180, 255, 0.25),
+    inset 0 2px 4px rgba(255, 255, 255, 0.7);
+  min-width: 340px;
+  min-height: 90px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+}
+
+/* ✅ Sombra adicional azul brillante alrededor */
+.flyer-name::after,
+.flyer-next::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(0, 200, 255, 0.4);
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* ✨ efecto hover coherente */
+.flyer-name:hover,
+.flyer-next:hover {
+  transform: scale(1.02);
+  box-shadow:
+    0 0 28px rgba(0, 200, 255, 0.4),
+    inset 0 2px 6px rgba(255, 255, 255, 0.8);
+}
+
+/* =======================================
+   🔸 MÉTRICAS CENTRALES
+======================================= */
+.metrics {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4rem;
+  flex-wrap: wrap;
+  text-align: center;
+
+  /* 🔼 Subida del bloque */
+  margin-top: -3rem;      /* sube aún más el grupo */
+  margin-bottom: 2.5rem;  /* mantiene buen aire inferior */
+  transform: translateY(-50px); /* desplazamiento adicional */
+}
+.metric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.metric-label {
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  color: #00aaff;
+  margin-bottom: 0.6rem;
+}
+
+.digit-blue {
+  font-size: 3rem;
+  color: #00aaff;
+  text-shadow: 0 0 10px rgba(0, 170, 255, 0.6);
+}
+
+.digit-blue.large {
+  font-size: 5rem;
+}
+
+.digit-red {
+  font-size: 3rem;
+  color: #ff3b3b;
+  text-shadow: 0 0 10px rgba(255, 59, 59, 0.6);
+}
+
+/* =======================================
+   🔻 FOOTER (elevado)
+======================================= */
+
+
+.wind-section {
+  text-align: left;
+  margin-left: 1rem;
+}
+
+.metric-label.red {
+  color: #ff3b3b;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  margin-bottom: 0.3rem;
+}
+
+.digit-red.wind {
+  font-size: 2.5rem;
+  color: #ff3b3b;
+  text-shadow: 0 0 10px rgba(255, 59, 59, 0.6);
+}
+
+/* === Sección del logo (footer) === */
+.brand-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 2rem;
+}
+
+.logo {
+  animation: logoGlowIn 1.8s ease forwards;
+}
+
+@keyframes logoGlowIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+    filter: blur(10px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 18px rgba(0, 255, 255, 0.6));
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.4));
+  }
+}
+
+
+.logo:hover {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 15px rgba(0, 255, 255, 0.6));
+}
+
+
+/* =======================================
+   📱 RESPONSIVE
+======================================= */
+@media (max-height: 850px) {
+  .digit-blue.large {
+    font-size: 4rem;
+  }
+
+  .digit-blue, .digit-red {
+    font-size: 2.5rem;
+  }
+
+  .metrics {
+    gap: 2rem;
+  }
+
+  .footer {
+    bottom: 0.8rem;
+  }
+
+  .digit-red.wind {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .metrics {
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .header {
+    gap: 3rem;
+  }
+}
+
+.display-white-container {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(180deg,#fff 0%,#eef2f8 100%);
+  padding: 1.5rem 2rem 3rem;   /* margen inferior de seguridad */
+  box-sizing: border-box;
+}
+
+/* footer fijo dentro de la vista */
+.footer {
+  position: absolute;
+  bottom: 6rem; /* 🔼 antes 3.5rem — ahora más arriba */
+  left: 0;
+  right: 0;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 2rem;
+  box-sizing: border-box;
+}
+
+/* =======================================
+   🌬 VISUALIZADOR CENTRAL DE FLUJO DE VIENTO (MEJORADO)
+======================================= */
+.wind-visual {
+  position: relative;
+  width: 88%;
+  height: 160px;
+  border-radius: 28px;
+  overflow: hidden;
+  margin: 2rem auto 2.5rem;
+  background: linear-gradient(180deg, rgba(240,250,255,0.8) 0%, rgba(220,240,255,0.4) 100%);
+  box-shadow:
+    inset 0 4px 8px rgba(255, 255, 255, 0.6),
+    inset 0 -6px 10px rgba(0, 100, 255, 0.2),
+    0 0 25px rgba(0, 170, 255, 0.25);
+  border: 1px solid rgba(0, 180, 255, 0.25);
+}
+
+/* capa de flujo dinámico principal */
+.wind-visual-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  filter: blur(3px);
+  background: linear-gradient(90deg,
+    #00ff99 0%,
+    #00ffff 25%,
+    #ffff00 60%,
+    #ff6600 80%,
+    #ff0000 100%);
+  background-size: 250% 100%;
+  animation: waveFlow 3.5s linear infinite;
+  opacity: 0.85;
+  clip-path: inset(0 100% 0 0 round 28px);
+  transition: clip-path 0.5s ease;
+  box-shadow: 0 0 35px rgba(0,255,255,0.4);
+}
+
+/* capa superior: reflejo luminoso */
+.wind-visual::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    rgba(255,255,255,0.6) 0%,
+    rgba(255,255,255,0.1) 50%,
+    rgba(255,255,255,0) 100%);
+  mix-blend-mode: overlay;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* capa de líneas aerodinámicas */
+.wind-lines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.08) 0 3px,
+    transparent 3px 8px
+  );
+  animation: moveLines 2s linear infinite;
+  opacity: 0.5;
+  mix-blend-mode: screen;
+}
+
+@keyframes moveLines {
+  from { transform: translateX(0); }
+  to { transform: translateX(-40px); }
+}
+
+@keyframes waveFlow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 250% 50%; }
+}
+
+.brand-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  margin-right: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 42px;         /* 🔹 tamaño un poco más visible */
+  width: auto;
+  opacity: 0.95;
+  filter: drop-shadow(0 0 6px rgba(0, 170, 255, 0.4));
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05); /* pequeño efecto al pasar el mouse */
+}
+
+.brand-text {
+  font-size: 0.95rem;
+  color: #0d1b2a;
+  opacity: 0.9;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
