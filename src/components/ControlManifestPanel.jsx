@@ -110,23 +110,7 @@ export default function ControlManifestPanel() {
     return () => socket.off("motorData", handleMotorData);
   }, []);
 
-useEffect(() => {
-  const handleKeyDown = (event) => {
-    if (event.key === "ArrowUp" || event.key === "ArrowDown") {
-      event.preventDefault(); // ❌ evita moverse entre campos o scroll
-      setPower((prev) => {
-        let newPower = prev;
-        if (event.key === "ArrowUp") newPower = Math.min(prev + 5, 100);
-        if (event.key === "ArrowDown") newPower = Math.max(prev - 5, 0);
-        socket.emit("updatePower", newPower);
-        return newPower;
-      });
-    }
-  };
 
-  window.addEventListener("keydown", handleKeyDown);
-  return () => window.removeEventListener("keydown", handleKeyDown);
-}, []);
 
   // ======== GESTIÓN DE FLYERS ========
   const addFlyer = () => {
