@@ -394,3 +394,52 @@ body, html, #root {
   }
 }
 
+/* ========================================
+   📋 PANEL DERECHO (MANIFEST)
+======================================== */
+.manifest-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f7f9fc;
+  padding: 1.5rem 2rem 4rem; /* 🔹 extra padding inferior para ver último flyer */
+  overflow-y: auto;
+  scroll-behavior: smooth;   /* 🔹 desplazamiento suave */
+}
+
+/* Título y botón */
+.manifest-section h2 {
+  font-size: 1.8rem;
+  color: #001f3f;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.add-flyer {
+  background: linear-gradient(180deg, #008cff 0%, #0072cc 100%);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  margin: 0 auto 1.3rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 3px 8px rgba(0, 136, 255, 0.3);
+  display: block;
+}
+.add-flyer:hover {
+  background: #0076db;
+}
+
+/* ========================================
+   🧍‍♂️ LISTADO DE FLYERS
+======================================== */
+.flyer-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-bottom: 2rem; /* 🔹 evita que el último se corte */
+}

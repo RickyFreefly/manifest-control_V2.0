@@ -22,13 +22,13 @@ export default function ControlManifestPanel() {
   const [flyers, setFlyers] = useState([
     {
       id: 1,
-      name: "Test",
+      name: "",
       seconds: 60,
       initial: 60,
       active: false,
       status: "idle",
-      sets: 3,
-      totalSets: 3,
+      sets: 1,
+      totalSets: 1,
       currentSet: 1,
     },
   ]);
@@ -60,7 +60,8 @@ export default function ControlManifestPanel() {
         ? `${activeFlyer.currentSet}/${activeFlyer.totalSets}`
         : "",
       power,
-      speed: rpm * 2,
+      //speed: rpm * 2,
+      speed: Math.min(270, 82 + (power - 5) * 2),
       time: activeFlyer ? formatTime(activeFlyer.seconds) : "00:00",
       flash,
       ...extra,
@@ -184,7 +185,7 @@ export default function ControlManifestPanel() {
     );
   };
 
-  // ======== GESTIÓN DE SETS ========
+
 // ======== GESTIÓN DE SETS ========
 const handleSetEnd = (id) => {
   if (handleSetEnd.locked?.[id]) return;

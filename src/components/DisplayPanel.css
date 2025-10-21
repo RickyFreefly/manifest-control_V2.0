@@ -371,3 +371,116 @@ body, html, #root {
   letter-spacing: 2px;
   text-transform: uppercase;
 }
+
+/* =======================================
+   📱 DISTRIBUCIÓN VERTICAL FINAL — METRICS BAJO LA BARRA
+======================================= */
+@media (orientation: portrait) {
+  .display-white-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(180deg,#ffffff 0%,#eef3fb 100%);
+    padding: 2vh 2vw;
+    box-sizing: border-box;
+  }
+
+  /* === ZONA SUPERIOR === */
+  .header {
+    flex: 0 0 25vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.2rem;
+  }
+
+  .flyer-name,
+  .flyer-next {
+    width: 100%;
+    font-size: 2rem;
+    min-height: 100px;
+    padding: 1.5rem 0;
+  }
+
+  /* === ZONA CENTRAL (barra + métricas) === */
+  .middle-section {
+    flex: 0 0 55vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 60%;
+    margin-top: 1rem;
+    gap: 2rem;
+  }
+
+  .wind-visual {
+    width: 92%;
+    height: 100px;
+    margin: 0 auto 0.5rem;
+  }
+
+  /* 📊 MÉTRICAS EN COLUMNA CENTRAL */
+  .metrics {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.6rem;
+    margin-top: 1.2rem;
+  }
+
+  .metric {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .metric-label {
+    font-size: 2rem;
+    color: #00aaff;
+    margin-bottom: 0.3rem;
+    letter-spacing: 2px;
+  }
+
+  /* 🔹 Tamaños jerárquicos */
+  .metric:nth-child(1) .digit-blue { /* SET */
+    font-size: 6rem;
+  }
+  .metric:nth-child(2) .digit-blue { /* TIME */
+    font-size: 6rem;
+  }
+  .metric:nth-child(3) .digit-red { /* POWER */
+    font-size: 6rem;
+  }
+
+  /* === ZONA INFERIOR (footer) === */
+  .footer {
+    flex: 0 0 20vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.8rem;
+  }
+
+  .wind-section {
+    text-align: center;
+  }
+
+  .metric-label.red {
+    font-size: 1.2rem;
+  }
+
+  .digit-red.wind {
+    font-size: 4rem;
+  }
+
+  .logo {
+    height: 500px;
+    margin-top: 0.3rem;
+  }
+}
