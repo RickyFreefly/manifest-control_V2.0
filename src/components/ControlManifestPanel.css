@@ -379,3 +379,18 @@ body, html, #root {
 .set-input { width: 60px; }
 .set-progress { color: #00c0ff; font-weight: 700; }
 .countdown-display { color: #fff; font-weight: 700; letter-spacing: 1px; }
+
+/* Parpadeo de alerta (faltando 10 segundos) */
+.flash-active {
+  animation: flashAlert 0.4s alternate infinite;
+}
+
+@keyframes flashAlert {
+  0% {
+    background-color: #ffffff;
+  }
+  100% {
+    background-color: #ff3333;
+  }
+}
+

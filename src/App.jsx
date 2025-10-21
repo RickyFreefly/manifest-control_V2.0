@@ -42,28 +42,17 @@ export default function App() {
           🖥 Display
         </button>
 
-        <button
-          onClick={() => setView("control")}
-          style={{ ...buttonStyle, ...(view === "control" ? activeStyle : {}) }}
-        >
-          🎛 Control
-        </button>
+
 
         <button 
           onClick={() => setView("controlmanifest")}
           >⚙️ Control+Manifest</button>
 
-        <button
-          onClick={() => setView("manifest")}
-          style={{ ...buttonStyle, ...(view === "manifest" ? activeStyle : {}) }}
-        >
-          📋 Manifest
-        </button>
+
       </nav>
 
       {view === "display" && <DisplayPanel />}
-      {view === "control" && <ControlPanel />}
-      {view === "manifest" && <ManifestControlPanel />}
+
       {view === "controlmanifest" && <ControlManifestPanel />}
     </div>
   );

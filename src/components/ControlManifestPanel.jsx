@@ -15,6 +15,9 @@ export default function ControlManifestPanel() {
   const beep = useRef(new Audio("/sounds/beep.mp3"));
   const timersRef = useRef({});
   const debounceRef = useRef(null); // ✅ para evitar spam de teclas
+  const [alertActive, setAlertActive] = useState(false); // 🟡 nuevo
+  const alertIntervalRef = useRef(null); // 🟡 nuevo
+  const [alertFlash, setAlertFlash] = useState(false); // 🟡 nuevo para color parpadeante
 
   const [flyers, setFlyers] = useState([
     {
@@ -110,8 +113,6 @@ export default function ControlManifestPanel() {
     return () => socket.off("motorData", handleMotorData);
   }, []);
 
-
-
   // ======== GESTIÓN DE FLYERS ========
   const addFlyer = () => {
     setFlyers((prev) => [
@@ -184,38 +185,42 @@ export default function ControlManifestPanel() {
   };
 
   // ======== GESTIÓN DE SETS ========
-  const handleSetEnd = (id) => {
-    if (handleSetEnd.locked?.[id]) return;
-    handleSetEnd.locked = handleSetEnd.locked || {};
-    handleSetEnd.locked[id] = true;
-    setTimeout(() => delete handleSetEnd.locked[id], 500);
+// ======== GESTIÓN DE SETS ========
+const handleSetEnd = (id) => {
+  if (handleSetEnd.locked?.[id]) return;
+  handleSetEnd.locked = handleSetEnd.locked || {};
+  handleSetEnd.locked[id] = true;
+  setTimeout(() => delete handleSetEnd.locked[id], 500);
 
-    setFlyers((prev) =>
-      prev.flatMap((f) => {
-        if (f.id === id) {
-          const remaining = f.sets - 1;
-          const nextSet = f.currentSet + 1;
+  setFlyers((prev) => {
+    const currentFlyer = prev.find((f) => f.id === id);
+    if (!currentFlyer) return prev;
 
-          if (remaining <= 0) {
-            updateDisplay({ flyer: "SE PREPARA", setNum: "" });
-            return [];
-          }
+    const remaining = currentFlyer.sets - 1;
+    const nextSet = currentFlyer.currentSet + 1;
 
-          return [
-            {
-              ...f,
-              sets: remaining,
-              currentSet: nextSet,
-              seconds: f.initial,
-              active: false,
-              status: "idle",
-            },
-          ];
-        }
-        return [f];
-      })
-    );
-  };
+    if (remaining <= 0) {
+      // 🧹 Elimina el flyer al completar todos los sets
+      updateDisplay({ flyer: "SE PREPARA", setNum: "" });
+      return prev.filter((f) => f.id !== id);
+    } else {
+      // 🔁 Mueve el flyer al final de la cola
+      const updatedFlyer = {
+        ...currentFlyer,
+        sets: remaining,
+        currentSet: nextSet,
+        seconds: currentFlyer.initial,
+        active: false,
+        status: "idle",
+      };
+
+      // 🔹 Elimina el flyer actual y lo agrega al final
+      const others = prev.filter((f) => f.id !== id);
+      return [...others, updatedFlyer];
+    }
+  });
+};
+
 
   // ======== CONTROL DEL CONTADOR ========
   const startFlyer = (id) => {
@@ -228,13 +233,40 @@ export default function ControlManifestPanel() {
       setFlyers((current) =>
         current.map((x) => {
           if (x.id !== id || !x.active) return x;
+
+          // 🟡 Activar alerta parpadeante faltando 10 segundos
+          if (x.seconds === 11 && !alertActive) {
+            setAlertActive(true);
+            alertIntervalRef.current = setInterval(() => {
+              setFlash((prev) => !prev);
+            }, 400);
+          }
+
+          if (x.seconds === 11 && !alertActive) {
+        setAlertActive(true);
+        alertIntervalRef.current = setInterval(() => {
+            setAlertFlash((prev) => !prev); // cambia color cada 0.4s
+        }, 400);
+        }
+
+
           if (x.seconds <= 1) {
             clearInterval(timersRef.current[id]);
             delete timersRef.current[id];
             triggerFlash();
             handleSetEnd(id);
+
+            // 🟡 Detener alerta parpadeante al finalizar
+            if (alertIntervalRef.current) {
+              clearInterval(alertIntervalRef.current);
+              alertIntervalRef.current = null;
+              setAlertActive(false);
+              setFlash(false);
+            }
+
             return { ...x, seconds: 0, active: false, status: "done" };
           }
+
           const newSeconds = x.seconds - 1;
           const currentIndex = current.findIndex((f) => f.id === id);
           const nextFlyer = current[currentIndex + 1];
@@ -279,6 +311,14 @@ export default function ControlManifestPanel() {
   const pauseFlyer = (id) => {
     clearInterval(timersRef.current[id]);
     delete timersRef.current[id];
+    // 🟡 Detener alerta si está activa
+    if (alertIntervalRef.current) {
+      clearInterval(alertIntervalRef.current);
+      alertIntervalRef.current = null;
+      setAlertActive(false);
+      setFlash(false);
+    }
+
     setFlyers((prev) =>
       prev.map((f) => (f.id === id ? { ...f, active: false, status: "idle" } : f))
     );
@@ -288,6 +328,14 @@ export default function ControlManifestPanel() {
   const resetFlyer = (id) => {
     clearInterval(timersRef.current[id]);
     delete timersRef.current[id];
+    // 🟡 Detener alerta al resetear
+    if (alertIntervalRef.current) {
+      clearInterval(alertIntervalRef.current);
+      alertIntervalRef.current = null;
+      setAlertActive(false);
+      setFlash(false);
+    }
+
     setFlyers((prev) =>
       prev.map((f) =>
         f.id === id
@@ -312,12 +360,12 @@ export default function ControlManifestPanel() {
     );
   };
 
-  // ======== POTENCIA MANUAL (enviando al backend) ========
+  // ======== POTENCIA MANUAL ========
   const changePower = (delta) => {
     clearTimeout(debounceRef.current);
     setPower((prev) => {
-      const newPower = Math.min(100, Math.max(4, prev + delta));
-      debounceRef.current = setTimeout(() => setMotorSpeed(newPower), 150); // ✅ envía al backend
+      const newPower = Math.min(100, Math.max(5, prev + delta));
+      debounceRef.current = setTimeout(() => setMotorSpeed(newPower), 150);
       return newPower;
     });
     setRpm((r) => Math.min(Math.max(r + delta * 50, 0), 1350));
